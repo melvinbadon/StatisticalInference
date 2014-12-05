@@ -2,17 +2,18 @@
 title: "Statistical Inference"
 author: "Melvin B. Badon"
 date: "Friday, December 05, 2014"
-output: html_document
+output: pdf_document
 ---
 
 
 ###Simulations
 
-The exponential distribution can be simulated in R with rexp(n, lambda) where lambda($\lambda$) is the rate parameter. The mean of exponential distribution is $1/\lambda$ and the standard deviation is also $1/\lambda$. For this simulation, we set $\lambda$=0.2. In this simulation, we investigate the distribution of averages of 40 exponential(0.2)s.
+The exponential distribution can be simulated in R with rexp(n, lambda) where lambda() is the rate parameter. The mean of exponential distribution is 1/?? and the standard deviation is also 1/??. For this simulation, we set ??=0.2. In this simulation, we investigate the distribution of averages of 40 exponential(0.2)s.
 
 Lets start by doing a thousand simulated averages of 40 exponentials.
 
-```{r,echo=TRUE}
+
+```r
 # Set seed
 set.seed(3)
 lambda <- 0.2
@@ -31,15 +32,16 @@ Results
 ##1. Show where the distribution is centered at and compare it to the theoretical center of the distribution.
 
 #### mean of distribution of averages of 40 exponentials
-mean(row_means) = `r mean(row_means)`
+mean(row_means) = 4.9866197
 
 #### mean from analytical expression
-`r 1/lambda`
+5
 
 
 The distribution of sample means is shown below:
 
-```{r,echo=TRUE}
+
+```r
 # plot the histogram of averages
 hist(row_means, breaks=50, prob=TRUE,
      main="Distribution of averages of samples,
@@ -57,33 +59,55 @@ lines(xfit, yfit, pch=22, col="red", lty=2)
 legend('topright', c("simulation", "theoretical"), lty=c(1,2), col=c("black", "red"))
 ```
 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+
 Therefore, the distribution of averages of 40 exponentials is centered at 4.9866 and the same is close to the theoretical center of the distribution, which is ?????1 = 5.
 
 
 ##2. Show how variable it is and compare it to the theoretical variance of the distribution.
 
 # standard deviation of distribution of averages of 40 exponentials
-```{r,echo=TRUE}
+
+```r
 sd(row_means)
 ```
 
+```
+## [1] 0.7910484
+```
+
 Standard deviation
-```{r,echo=TRUE}
+
+```r
 # standard deviation from analytical expression
 (1/lambda)/sqrt(sample_size)
 ```
 
+```
+## [1] 0.7905694
+```
+
 Variance of the sample
-```{r,echo=TRUE}
+
+```r
 # Variance of the sample mean
 var(row_means)
 ```
 
+```
+## [1] 0.6257575
+```
+
 
 Theoritical variance of distribution
-```{r,echo=TRUE}
+
+```r
 # Theoritcal variance of the distribution
 1/((0.2*0.2) * 40)
+```
+
+```
+## [1] 0.625
 ```
 
 Therefore, the variability in distribution of averages of 40 exponentials is close to the theoretical variance of the distribution.
@@ -94,14 +118,18 @@ The variance of sample means is 0.6258 where as the theoretical variance of the 
 
 due to the central limit the central imit theorem
 
-```{r,echo=TRUE}
+
+```r
 qqnorm(row_means); qqline(row_means)
 ```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 Due to the central limit theorem, the averages of samples follow normal distribution. The figure above also shows the density computed using the histogram and the normal density plotted with theoretical mean and variance values. Also, the q-q plot suggests the distribution of averages of 40 exponentials is very close to a normal distribution.
 
 
-```{r,echo=TRUE}
+
+```r
 lambda_vals <- seq(4, 6, by=0.01)
 coverage <- sapply(lambda_vals, function(lamb) {
     mu_hats <- rowMeans(matrix(rexp(sample_size*simulations, rate=0.2),
@@ -114,6 +142,8 @@ coverage <- sapply(lambda_vals, function(lamb) {
 library(ggplot2)
 qplot(lambda_vals, coverage) + geom_hline(yintercept=0.95)
 ```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
 
 The 95% confidence intervals for the rate parameter (??) to be estimated (??^) are ??^low=??^(1???1.96n???) and ??^upp=??^(1+1.96n???). As can be seen from the plot above, for selection of ??^ around 5, the average of the sample mean falls within the confidence interval at least 95% of the time. Note that the true rate, ?? is 5.
 

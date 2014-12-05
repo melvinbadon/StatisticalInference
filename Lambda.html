@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<ol>
+<li>Load the ToothGrowth data and perform some basic exploratory data analysis</li>
+</ol>
+
+<pre><code class="r"># load the dataset
+library(datasets)
+data(ToothGrowth)
+
+# look at the dataset variables
+head(ToothGrowth)
+</code></pre>
+
+<pre><code>##    len supp dose
+## 1  4.2   VC  0.5
+## 2 11.5   VC  0.5
+## 3  7.3   VC  0.5
+## 4  5.8   VC  0.5
+## 5  6.4   VC  0.5
+## 6 10.0   VC  0.5
+</code></pre>
+
+<pre><code class="r">str(ToothGrowth)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    60 obs. of  3 variables:
+##  $ len : num  4.2 11.5 7.3 5.8 6.4 10 11.2 11.2 5.2 7 ...
+##  $ supp: Factor w/ 2 levels &quot;OJ&quot;,&quot;VC&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ dose: num  0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...
+</code></pre>
+
+<pre><code class="r"># convert variable dose from numeric to factor
+ToothGrowth$dose &lt;- as.factor(ToothGrowth$dose)
+
+# review dataset variables after conversion
+str(ToothGrowth)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    60 obs. of  3 variables:
+##  $ len : num  4.2 11.5 7.3 5.8 6.4 10 11.2 11.2 5.2 7 ...
+##  $ supp: Factor w/ 2 levels &quot;OJ&quot;,&quot;VC&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ dose: Factor w/ 3 levels &quot;0.5&quot;,&quot;1&quot;,&quot;2&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+</code></pre>
+
+<pre><code class="r"># number of rows of dataset
+nrow(ToothGrowth)
+</code></pre>
+
+<pre><code>## [1] 60
+</code></pre>
+
+<ol>
+<li>Provide a basic summary of the data.</li>
+</ol>
+
+<pre><code class="r"># summary statistics for all variables
+summary(ToothGrowth)
+</code></pre>
+
+<pre><code>##       len        supp     dose   
+##  Min.   : 4.20   OJ:30   0.5:20  
+##  1st Qu.:13.07   VC:30   1  :20  
+##  Median :19.25           2  :20  
+##  Mean   :18.81                   
+##  3rd Qu.:25.27                   
+##  Max.   :33.90
+</code></pre>
+
+<pre><code class="r"># split of cases between different dose levels and delivery methods
+table(ToothGrowth$dose, ToothGrowth$supp)
+</code></pre>
+
+<pre><code>##      
+##       OJ VC
+##   0.5 10 10
+##   1   10 10
+##   2   10 10
+</code></pre>
+
+<pre><code class="r">library(ggplot2)
+ggplot(data=ToothGrowth, aes(x=as.factor(dose), y=len, fill=supp)) +
+    geom_bar(stat=&quot;identity&quot;,) +
+    facet_grid(. ~ supp) +
+    xlab(&quot;Dose in miligrams&quot;) +
+    ylab(&quot;Tooth length&quot;) +
+    guides(fill=guide_legend(title=&quot;Supplement type&quot;))
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"> </p>
+
+<p>As can be seen above, there is a clear positive correlation between the tooth length and the dose levels of Vitamin C, for both delivery methods.</p>
+
+<ol>
+<li>Use confidence intervals and hypothesis tests to compare tooth growth by supp and dose.</li>
+</ol>
+
+<p>95% confidence intervals for two variables and the intercept are as follows:</p>
+
+<pre><code class="r">fit &lt;- lm(len ~ dose + supp, data=ToothGrowth)
+confint(fit)
+</code></pre>
+
+<pre><code>##                 2.5 %    97.5 %
+## (Intercept) 10.475238 14.434762
+## dose1        6.705297 11.554703
+## dose2       13.070297 17.919703
+## suppVC      -5.679762 -1.720238
+</code></pre>
+
+<p>The confidence intervals mean that if we collect a different set of data and estimate parameters of the linear model many times, 95% of the time, the coefficient estimations will be in these ranges. For each coefficient (i.e. intercept, dose and suppVC), the null hypothesis is that the coefficients are zero, meaning that no tooth length variation is explained by that variable. All p-values are less than 0.05, rejecting the null hypothesis and suggesting that each variable explains a significant portion of variability in tooth length, assuming the significance level is 5%.</p>
+
+<p>The effect of the dose can also be identified using regression analysis. One interesting question that can also be addressed is whether the supplement type (i.e. orange juice or ascorbic acid) has any effect on the tooth length.</p>
+
+<pre><code class="r">summary(fit)
+</code></pre>
+
+<pre><code>## 
+## Call:
+## lm(formula = len ~ dose + supp, data = ToothGrowth)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.085 -2.751 -0.800  2.446  9.650 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  12.4550     0.9883  12.603  &lt; 2e-16 ***
+## dose1         9.1300     1.2104   7.543 4.38e-10 ***
+## dose2        15.4950     1.2104  12.802  &lt; 2e-16 ***
+## suppVC       -3.7000     0.9883  -3.744 0.000429 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.828 on 56 degrees of freedom
+## Multiple R-squared:  0.7623, Adjusted R-squared:  0.7496 
+## F-statistic: 59.88 on 3 and 56 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+
+<p>The model explains 70% of the variance in the data. The intercept is 12.455, meaning that with no supplement of Vitamin C, the average tooth length is 12.455 units. The coefficient of <code>dose</code> is 9.13. It can be interpreted as increasing the delievered dose 1 mg, all else equal (i.e. no change in the supplement type), would increase the tooth length 9.13 units. The last coefficient is for the supplement type. Since the supplement type is a categorical variable, dummy variables are used. The computed coefficient is for <code>suppVC</code> and the value is 15.495 meaning that delivering a given dose as ascorbic acid, without changing the dose, would result in 15.495 units of decrease in the tooth length. Since there are only two categories, we can also conclude that on average, delivering the dosage as orange juice would increase the tooth length by 15.495 units.</p>
+
+</body>
+
+</html>
