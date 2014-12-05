@@ -58,7 +58,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<p>Simulations The exponential distribution can be simulated in R with rexp(n, lambda) where lambda(??) is the rate parameter. The mean of exponential distribution is 1/?? and the standard deviation is also 1/??. For this simulation, we set ??=0.2. In this simulation, we investigate the distribution of averages of 40 exponential(0.2)s.</p>
+<div id="simulations" class="section level3">
+<h3>Simulations</h3>
+<p>The exponential distribution can be simulated in R with rexp(n, lambda) where lambda(??) is the rate parameter. The mean of exponential distribution is 1/?? and the standard deviation is also 1/??. For this simulation, we set ??=0.2. In this simulation, we investigate the distribution of averages of 40 exponential(0.2)s.</p>
 <p>Lets start by doing a thousand simulated averages of 40 exponentials.</p>
 <pre class="r"><code># Set seed
 set.seed(3)
@@ -72,6 +74,7 @@ simulated_exponentials &lt;- matrix(rexp(simulations*sample_size, rate=lambda), 
 # Averages of 40 exponentials
 row_means &lt;- rowMeans(simulated_exponentials)</code></pre>
 <p>Results</p>
+</div>
 <div id="show-where-the-distribution-is-centered-at-and-compare-it-to-the-theoretical-center-of-the-distribution." class="section level2">
 <h2>1. Show where the distribution is centered at and compare it to the theoretical center of the distribution.</h2>
 <div id="mean-of-distribution-of-averages-of-40-exponentials" class="section level4">

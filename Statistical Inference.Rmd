@@ -6,7 +6,8 @@ output: html_document
 ---
 
 
-Simulations
+###Simulations
+
 The exponential distribution can be simulated in R with rexp(n, lambda) where lambda(??) is the rate parameter. The mean of exponential distribution is 1/?? and the standard deviation is also 1/??. For this simulation, we set ??=0.2. In this simulation, we investigate the distribution of averages of 40 exponential(0.2)s.
 
 Lets start by doing a thousand simulated averages of 40 exponentials.
